@@ -1,5 +1,5 @@
 <div align="center">
-    <h1>🍚️Arroces🍚️</h1>
+    <h1>🍚️ Arroces 🍚️</h1>
 </div>
 
 This is my Linux dotfiles collection. Contains:
@@ -9,6 +9,11 @@ This is my Linux dotfiles collection. Contains:
 - zsh and alacritty configuration files
 
 <img src="img/rice1.png">
+
+
+https://user-images.githubusercontent.com/47019693/221390886-c4040388-726a-49b4-843a-99b5f22710ef.mp4
+
+
 <img src="img/rice2.png">
 <img src="img/rice3.png">
 
