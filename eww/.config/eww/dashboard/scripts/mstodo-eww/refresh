@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# What the hell is this script for?
+# To Do lists are listened to from the JSON file using tail output command. 
+# Since a change in the output needs to be detected, that script writes dummy data
+# and then delete it. The changes will be detected by eww
+# Definitely is an inefficient method. If you find a better method, let me know
+
+# Write a newline and brackets
+echo -e "\n[]" >> ~/.config/eww/dashboard/scripts/mstodo-eww/data.json
+# Delete inserted characters previously
+truncate -s -3 ~/.config/eww/dashboard/scripts/mstodo-eww/data.json

@@ -1,0 +1,46 @@
+.date {
+	padding: 0 1rem 0 1rem;
+}
+
+
+.time {
+	background-color: $background;
+	color: $foreground;
+	margin: .5rem;
+	padding: 2rem 1rem 0 1rem;
+	//padding: 1.8rem;
+	border-radius: 18px;
+	min-width: 300px;
+}
+
+.hour,
+.separator-clock {
+	font-family: "MADE Outer Sans Outline";
+	color: $red;
+	font-weight: 700;
+	font-size: 5em;
+}
+
+
+.min {
+	font-family: "MADE Outer Sans";
+	font-weight: 700;
+	font-size: 5em;
+}
+
+.separator-clock {
+	margin-top: -5px;
+}
+
+.day,
+.mdate {
+	//padding: .5rem;
+	font-family: "MADE Outer Sans";
+	font-weight: 500;
+	font-size: 1.2em;
+	color: $foreground;
+}
+
+.mdate {
+	color: $red;
+}

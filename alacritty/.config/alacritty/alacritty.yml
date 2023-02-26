@@ -1,0 +1,51 @@
+colors:
+  bright:
+    black: '#262A33'
+    blue: '#00E8C6'
+    cyan: '#00E8C6'
+    green: '#96E072'
+    magenta: '#F92672'
+    purple: '#C74DED'
+    red: '#BF3768'
+    white: '#bfbfbf'
+    yellow: '#FDE46C'
+  normal:
+    black: '#000000'
+    blue: '#00E8C6'
+    cyan: '#00E8C6'
+    green: '#96E072'
+    magenta: '#F92672'
+    purple: '#C74DED'
+    red: '#BF3768'
+    white: '#bfbfbf'
+    yellow: '#FDE46C'
+  primary:
+    background: '#23262E'
+    foreground: '#f8f8f2'
+
+cursor:
+  blink_interval: 750
+  live_config_reload: true
+  style:
+    blinking: Always
+    shape: Block
+decorations: none
+
+font:
+  bold:
+    family: CaskaydiaCove NerdFont
+    offset: null
+    size: 10.5
+    x: 0
+    y: 0
+  glyph_offset:
+    x: 0
+    y: 0
+  normal:
+    family: CaskaydiaCove NerdFont
+  size: 10.5
+theme: Andromeda
+window:
+  padding:
+    x: 15
+    y: 15

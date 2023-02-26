@@ -1,0 +1,329 @@
+; Clock Widget
+(defwidget clock []
+  (box	:class "time"
+    :orientation "v"
+    :space-evenly "false"
+    :halign "end"
+    (box 	:orientation "v"
+      :space-evenly "false"
+      (box	:orientation "h"
+        :class "date"
+        :halign "center"
+        :space-evenly "false"
+        (label	:class "hour" :halign "center" :text "${hour}")
+        (label	:class "separator-clock" :text ":")
+        (label	:class "min" :halign "center" :text "${minute}"))
+      
+      (box	:orientation "h"
+        :halign "center"
+        :space-evenly "false"
+        (label	:class "day" :halign "center" :text "${day}, ")
+        (label  :class "mdate" :halign "center" :text "${date}")
+      )
+      
+      (box	:class "pendingbox"
+        :orientation "h"
+        :halign "center"
+        :spacing 10
+        
+        (eventbox	:class "mailbox"
+          :onclick "~/.config/eww/dashboard/scripts/open_apps --mail"
+          (box	:space-evenly "false"
+            :class "mailbutton"
+            (label	:class "pendings_icon"
+            :text " ")
+            (label	:text "${pending-mails}")
+          )
+        )
+        (eventbox	:class "updatesbox"
+          :onclick "~/.config/eww/dashboard/scripts/open_apps --updates"
+          (box	:space-evenly "false"
+            :class "updatesbutton"
+            (label	:class "pendings_icon"
+            :text " ")
+            (label	:text "${pending-updates}")
+          )
+        )
+      )
+    )
+    
+    (weather)
+    (stats)
+  )
+  
+)
+
+
+; Weather Widget
+(defwidget weather []
+  (box 	:class "weather"
+    :orientation "v"
+    :space-evenly "false"
+    :halign "center"
+    (box	:orientation "v"
+      :space-evenly "false"
+      (box	:orientation "h"
+        :space-evenly "false"
+        (box	:class "weather-icon"
+          :halign "start"
+          :style "color: ${weather-hex}"
+        {weather-icon})
+        (box	:class "temp-info"
+          :orientation "v"
+          :space-evenly "false"
+          (label	:class "weather-day"
+            :halign "center"
+          :text "${temperature}, ${weather-city} ")
+          (label	:class "weather-stat"
+            :style "color: ${weather-hex}"
+            :halign "center"
+            :limit-width 16
+          :text "${weather-stat}")
+        )
+      )
+    )
+  )
+)
+
+
+; Stats Widget
+(defwidget stats []
+  (box	:class "stats"
+    :orientation "v"
+    :space-evenly "false"
+    :halign "end"
+    (box	:class "ram_barbox"
+      :orientation "h"
+      :space-evenly "false"
+      (box	:class "iconbox"
+        :orientation "h"
+        (label	:class "ram_icon"
+        :text " ")
+      )
+      (scale	:orientation "h"
+        :min 0
+        :max 100
+        :value ram-usage
+      :active "false")
+    )
+    
+    (box	:class "cpu_barbox"
+      :orientation "h"
+      :space-evenly "false"
+      (box	:class "iconbox"
+        :orientation "h"
+        (label	:class "cpu_icon"
+        :text " ")
+      )
+      (scale	:orientation "h"
+        :min 0
+        :max 100
+        :value cpuavg
+      :active "false")
+    )
+    
+    (box	:class "battery_barbox"
+      :orientation "h"
+      :space-evenly "false"
+      (box	:class "iconbox"
+        :orientation "h"
+        (label	:class "battery_icon"
+        :text " ")
+      )
+      (scale	:orientation "h"
+        :min 0
+        :max 100
+        :value "${battery-capacity}"
+      :active "false")
+    )
+  )
+)
+
+
+; Music Widget
+(defwidget music []
+  (box 	:class "music-player"
+    :orientation "v"
+    :space-evenly "false"
+    :halign "start"
+    (box	:orientation "h"
+      :space-evenly "false"
+      (box	:class "album_art"
+        :style "background-image: url('${art}');")
+      (box	:class "controls"
+        :orientation "v"
+        :space-evenly "false"
+        :halign "start"
+        :valign "center"
+        :spacing 10
+        (label	:class "song"
+          :halign "start"
+          :limit-width 15
+        :text title)
+        (label  :class "artist"
+          :halign "start"
+          :limit-width 19
+        :text artist)
+        (label  :class "album"
+          :halign "start"
+          :limit-width 20
+        :text album)
+        (box 	:orientation "h"
+          :space-evenly "false"
+          :halign "start"
+          :spacing 35
+          (button	:class "btn_prev"
+          :onclick "~/.config/eww/dashboard/scripts/music previous" "ﭣ")
+          (button :class "btn_play"
+          :onclick "~/.config/eww/dashboard/scripts/music toggle" playpause)
+          (button :class "btn_next"
+          :onclick "~/.config/eww/dashboard/scripts/music next" "ﭡ")
+        )
+      )
+    )
+  )
+)
+
+
+; Applications Widgets
+(defwidget app[]
+  (box	:orientation "h"
+    :class "applications"
+    :space-evenly "false"
+    :width "100%"
+    :spacing 40
+    :halign "center"
+    :valign "center"
+    (button :class "app-edge"
+    :onclick "~/.config/eww/dashboard/scripts/open_apps --edge" "")
+    (button :class "app-spotify"
+    :onclick "~/.config/eww/dashboard/scripts/open_apps --spotify" "")
+    (button :class "app-whatsapp"
+    :onclick "~/.config/eww/dashboard/scripts/open_apps --whatsapp" "")
+    (button :class "app-telegram"
+    :onclick "~/.config/eww/dashboard/scripts/open_apps --telegram" "")
+    (button :class "app-code"
+    :onclick "~/.config/eww/dashboard/scripts/open_apps --code" "﬏")
+    (button :class "app-github"
+    :onclick "~/.config/eww/dashboard/scripts/open_apps --github" "")
+    (button :class "app-eclipse"
+    :onclick "~/.config/eww/dashboard/scripts/open_apps --eclipse" "")
+    (button :class "app-office"
+    :onclick "~/.config/eww/dashboard/scripts/open_apps --office" "")
+    (button :class "app-discord"
+    :onclick "~/.config/eww/dashboard/scripts/open_apps --discord" "")
+  )
+  
+)
+
+
+; About section
+
+(defwidget about []
+  (box	:class "about"
+    :orientation "v"
+    :space-evenly "false"
+    (box	:orientation "h"
+      :space-evenly "false"
+      ; Coco box
+      (box	:class "coco"
+        :style "background-image: url('dashboard/assets/coco/${coco}');")
+      (box	:orientation "v"
+        :space-evenly "false"
+        ; About system
+        (label	:class "about_header"
+          :halign "start"
+        :text "About System\\n")
+        (box 	:orientation "h"
+          :space-evenly "false"
+          (box	:orientation "v"
+            :valign "center"
+            :space-evenly "false"
+            (label	:class "about_os"
+              :halign "start"
+            :text "OS")
+            (label	:class "about_kernel"
+              :halign "start"
+            :text "Kernel")
+            (label	:class "about_desktop"
+              :halign "start"
+            :text "Desktop ")
+            (label	:class "about_wm"
+              :halign "start"
+            :text "WM")
+            (label	:class "about_theme"
+              :halign "start"
+            :text "Theme")
+            (label	:class "about_shell"
+              :halign "start"
+            :text "Shell")
+            (label	:class "about_os"
+              :halign "start"
+            :text "Uptime")
+          )
+          
+          (box	:orientation "v"
+            :valign "center"
+            :space-evenly "false"
+            (label	:class "about_text"
+              :halign "start"
+            :text "${distro}")
+            (label	:class "about_text"
+              :halign "start"
+            :text "${kernel}")
+            (label	:class "about_text"
+              :halign "start"
+            :text "${de}")
+            (label	:class "about_text"
+              :halign "start"
+            :text "${wm}")
+            (label	:class "about_text"
+              :halign "start"
+            :text "${theme}")
+            (label	:class "about_text"
+              :halign "start"
+            :text "${shell}")
+            (label	:class "about_text"
+              :halign "start"
+            :text "${uptime}")
+          )
+        )
+      )
+    )
+    ; Color palettes
+    (box	:orientation "h"
+      :halign "center"
+      (button	:class "btn_green"
+      :onclick "echo coco-green.png > ~/.config/eww/dashboard/scripts/coco" " ")
+      (button :class "btn_purple"
+      :onclick "echo simping.png > ~/.config/eww/dashboard/scripts/coco" " ")
+      (button :class "btn_blue"
+      :onclick "echo bbycito.png > ~/.config/eww/dashboard/scripts/coco" " ")
+      (button :class "btn_orange"
+      :onclick "echo problemon.png > ~/.config/eww/dashboard/scripts/coco" " ")
+      (button :class "btn_red"
+      :onclick "echo coca.png > ~/.config/eww/dashboard/scripts/coco" " ")
+      (button :class "btn_yellow"
+      :onclick "echo pain.png > ~/.config/eww/dashboard/scripts/coco" " ")
+    )
+  )
+)
+
+
+; Main Widgets
+(defwidget dashboard[]
+  (box :orientation "h"
+    :class "dashboard"
+    :space-evenly "false"
+    
+    (todo)
+    (clock)
+    (box	:orientation "v"
+      :space-evenly "false"
+      :halign "start"
+      
+      (music)
+      (about)
+    )
+  )
+)

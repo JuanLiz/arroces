@@ -1,0 +1,77 @@
+.filemanager {
+    background-color: $background;
+    color: $foreground;
+    margin: .2rem .5rem .5rem .5rem;
+    border-radius: 18px;
+}
+
+.storage {
+    background-color: $orange;
+    //color: $background-alt2;
+    padding: 1.5rem 1rem;
+    border-radius: 12px 12px 0 0;
+
+}
+
+.hdd_icon {
+    color: $background-alt2;
+    font-size: 4rem;
+    padding-right: 1rem;
+}
+
+.disk-usage {
+    color: $background-alt2; 
+    font-family: 'CaskaydiaCove Nerd Font';
+    font-weight: 700;
+    font-size: 1.6rem;
+
+}
+
+.home-box,
+.downloads-box,
+.documents-box,
+.pictures-box{
+    padding: 1rem .75rem;
+}
+
+.home-box {
+    background-color: $magenta;
+}
+
+.downloads-box {
+    background-color: $blue;
+}
+
+.documents-box {
+    background-color: #BF3768;
+}
+
+.pictures-box {
+    background-color: $green;
+    border-radius: 0 0 18px 18px;  
+}
+
+.home-folder,
+.downloads-folder,
+.documents-folder,
+.pictures-folder {
+    color: $background-alt;
+    font-family: 'CaskaydiaCove Nerd Font';
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.home-folder:hover,
+.downloads-folder:hover,
+.documents-folder:hover,
+.pictures-folder:hover,
+.folders_icon:hover {
+    color: $background-alt2;
+
+}
+
+.folders_icon {
+    color: $background-alt;
+    font-family: 'Font Awesome 6 Pro';
+    font-size: 1.7rem;
+}

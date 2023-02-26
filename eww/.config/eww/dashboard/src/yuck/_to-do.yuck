@@ -1,0 +1,315 @@
+; For loading screen
+(defvar loading_tasks false)    ; Tasks loadscreen
+(defvar loading_form false)     ; Form loadscreen
+(defvar load_progress 0)        ; Load progress
+
+; Form revealers
+(defvar taskform false)         ; Main form revealer
+(defvar listsel false)          ; To Do list selector
+
+; Form fields
+(defvar form_type "create")     ; Request type. Create or update
+(defvar listid "")              ; Id of list selected
+(defvar listname "")            ; List name shown in list selector
+(defvar taskid "")              ; Id of task selected (update task)
+(defvar tasktitle "")           ; Task title
+(defvar placeholder "")         ; Placeholder for name input (update task)
+(defvar hasduedate false)       ; For due date checkbox
+(defvar duedate "")             ; Due date.
+(defvar caldate "")             ; Array for set date in calendar (update task)
+
+
+; Loading box
+(defwidget loading []
+  (box  :style "padding: 5rem"
+    :valign "center"
+    :halign "center"
+    :vexpand "true"
+    :space-evenly "false"
+    (circular-progress :class "loading"
+      :width 100
+      :height 100
+      :thickness 10
+      :value load_progress
+      :start-at 75
+    "LOADING")
+  )
+)
+
+; Authentication box
+(defwidget auth[]
+  (eventbox :onclick "echo 'python3 ${EWW_CONFIG_DIR}/dashboard/scripts/mstodo-eww/main.py auth; ${EWW_CMD} reload; sleep 1; ${EWW_CMD} reload' | xclip -selection c"
+    (label :class "auth_notification"
+      :wrap "true"
+      :text "You need to authenticate first. Click here to copy the command, open a terminal and paste the command"
+    )
+  )
+)
+
+; To Do Widget
+(defwidget todo []
+  (box  :class "todo"
+    :orientation "v"
+    :space-evenly "false"
+    
+    ; Header
+    (box  :class "todo-header"
+      :orientation "h"
+      :space-evenly "false"
+      
+      (label  :class "todo-title" :text "TO-DO")
+      
+      ; When Coco is pressed, tasklists will be refreshed
+      (eventbox :timeout "10s"
+        :onclick "~/.config/eww/dashboard/scripts/mstodo-eww/main.py refresh && echo a"
+        (box  :class "todo-image"
+          :style "background-image: url('dashboard/assets/coco/minicoco.png');"
+        )
+      )
+    )
+    
+    ; Loading box
+    (box  :visible {loading_tasks}
+      :orientation "v"
+      :space-evenly "false"
+      (loading)
+    )
+    
+    ; Main container for task lists. Visible if data isn't being refreshed
+    (scroll :visible {!loading_tasks}
+      :vscroll "true"
+      :height 150
+      :width 360
+      :vexpand "true"
+      
+      (box :orientation "v"
+        
+        ; Authenticate box. Visible if script returns error
+        (box :visible {todostatus!=""}
+          (auth)
+        )
+        
+        ; To Do container
+        (box	:class "todo-container"
+          :orientation "v"
+          :space-evenly "false"
+          
+          ; Get task lists
+          (for list in "${todo}"
+            (box 	:class "tasklist"
+              :orientation "v"
+              :halign "start" :valign "start" :space-evenly "false"
+              
+              ; Dropdown list changing its JSON 'dropped' value
+              (eventbox   :class "listlabel-eventbox"
+                :onclick "~/.config/eww/dashboard/scripts/mstodo-eww/state.py ${list.id} && ~/.config/eww/dashboard/scripts/mstodo-eww/refresh"
+                
+                (box  :class "listlabel"
+                  :orientation "h"
+                  :spacing -50
+                  (label  :halign "start" :text "${list.name}")
+                  (button :halign "end" "${list.icon}")
+                )
+              )
+              
+              ; Revealer for task lists
+              (revealer	:reveal "${list.dropped}"
+                :transition "slidedown"
+                :duration "1000ms"
+                
+                ; Main container for tasks
+                (scroll :vscroll "true"
+                  :height "${list.height}"
+                  :vexpand "true"
+                  (box 	:class "tasks"
+                    :orientation "v"
+                    :space-evenly "false"
+                    
+                    ; Get tasks
+                    (for task in "${list.tasks}"
+                      (box 	:orientation "v"
+                        :space-evenly "false"
+                        
+                        ; When task is rightclicked, show modify task panel
+                        (eventbox 	:onrightclick "eww update taskform=true form_type='update' listid='${list.id}' listname='${list.name}' taskid='${task.id}' tasktitle='${task.title}' placeholder='${task.title}' hasduedate='${task.hasDueDate}' caldate=${task.duedate} && ~/.config/eww/dashboard/scripts/mstodo-eww/refresh"  
+                          (box 	:class "task"
+                            :orientation "h"
+                            :spacing -50
+                            ; Task title
+                            (label 	:halign "start" :wrap "true" :text "${task.title}")
+                            ; Button for complete task
+                            (button :class "check_icon"
+                              :halign "end"
+                              :timeout "10s"
+                              :onclick " ~/.config/eww/dashboard/scripts/mstodo-eww/main.py complete '${list.id}' '${task.id}'"
+                            "")
+                          )
+                        )
+                        
+                        ; If exists, show due date
+                        (box 	:orientation "h"
+                          :visible "${task.hasDueDate}"
+                          :style "color: ${task.datecolor}; padding-bottom: .5rem"
+                          :space-evenly "false"
+                          (label  :class "dateicon"
+                            :style "color: ${task.datecolor}"
+                            :valign "start"
+                            :halign "start"
+                          :text "")
+                          (label  :class "duedate"
+                          :text "${task.shortduedate}")
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+    
+    ; Task form container
+    (box  :visible "${todostatus!='Token expired. You need to authenticate first' && !loading_tasks}"
+      :class "taskform-container"
+      :orientation "v"
+      :space-evenly "false"
+      
+      ; Task form header
+      (box  :class "marginbox"
+        :orientation "h"
+        :space-evenly "true"
+        :spacing -50
+        
+        ; Dropdown form if header is pressed
+        (eventbox	:class "taskform-eventbox"
+          :onclick { taskform ? "eww update taskform=false" : "eww update taskform=true"}
+          (box    :orientation "h"
+            :space-evenly "false"
+            ; Evaluate form type for set title and icon
+            (label :class "add_icon" :text {form_type == "update" ? "": ""})
+            (label :halign "center" :text {form_type == "update" ? "UPDATE TASK": "ADD NEW TASK"})
+          )
+        )
+        
+        ; Form buttons
+        (box :style "padding:0 2.2rem"
+          
+          ; Cancel form button
+          (button :halign "center"
+            ; Set visible if menu is opened
+            :visible {taskform ? "true" : "false"}
+            :class "submit"
+            :timeout "15s"
+            :onclick "eww update taskform=false form_type='create' listid='' listname='' tasktitle='' placeholder='' hasduedate=false duedate=false"
+          "")
+          ; Submit form button
+          (button :halign "center"
+            ; Set visible if menu is opened
+            :visible {taskform ? "true" : "false"}
+            :class "submit"
+            ; Disable submit button if name is empty
+            :active {tasktitle == "" || loading_form ? "false" : "true" }
+            :style {tasktitle == "" || loading_form ? "background-color: rgba(124, 183, 255, .1); color: rgba(35, 38, 46, .25)" : "background-color: #7CB7FF"}
+            :timeout "15s"
+            ; Evaluate form type for set submit command
+            :onclick {form_type == "update"
+            ? "~/.config/eww/dashboard/scripts/mstodo-eww/main.py '${form_type}' '${listid}' '${taskid}' '${tasktitle}' '${hasduedate}' '${duedate}'"
+            : "~/.config/eww/dashboard/scripts/mstodo-eww/main.py '${form_type}' '${listid}' '${tasktitle}' '${hasduedate}' '${duedate}'" }
+            
+          "")
+        )
+      )
+      
+      
+      ; Task form revealer
+      (revealer   :class "taskform"
+        :transition "slidedown"
+        :reveal taskform
+        ; Main form container
+        (scroll :vscroll "true"
+          :height 250
+          :vexpand "true"
+          (box  :class "marginbox"
+            :orientation "v"
+            :space-evenly "false"
+            ; Loading container
+            (box  :visible loading_form
+              :orientation "v"
+              :space-evenly "false"
+              (loading)
+            )
+            ; Form
+            (box  :visible {!loading_form}
+              :orientation "v"
+              :space-evenly "false"
+              
+              ; List selector
+              (label  :style "padding-left: .25rem"
+                :halign "start"
+              :text "LIST")
+              ; Dropdown for select list
+              (eventbox   :onclick {listsel ? "eww update listsel=false" : "eww update listsel=true"}
+                (box  :class "input"
+                  :orientation "v"
+                  :space-evenly "false"
+                  (label :halign "start" :text listname)
+                  (revealer   :transition "slideup"
+                    :reveal listsel
+                    (box  :class "dropdown"
+                      :orientation "v"
+                      ; Get task lists
+                      (for list in "${todo}"
+                        ; When pressed, update listid and name variables
+                        (button	:style "padding: .25rem"
+                          :halign "start"
+                          :onclick "eww update listid='${list.id}' listname='${list.name}' listsel=false"
+                        "${list.name}")
+                      )
+                    )
+                  )
+                )
+              )
+              
+              ; Name input
+              (label  :style "padding-left: .25rem"
+                :halign "start"
+              :text "TASK")
+              (input  :class "input"
+                :value placeholder
+              :onchange "eww update tasktitle='{}'")
+              
+              ; Due date checkbox
+              (box	:style "padding-bottom: 1rem"
+                :space-evenly "false"
+                ; Show calendar if box is checked
+                (eventbox	:class "checkboxa"
+                  :style {hasduedate ? "background-color:#7CB7FF" : "background-color:rgba(213, 206, 217, 0.075)"}
+                  :onclick {hasduedate ? "eww update hasduedate=false" : "eww update hasduedate=true"}
+                  ; Dummy box
+                  (box :class "checkbox")
+                )
+                (label  :style "padding: .75rem"
+                  :halign "start"
+                :text "HAS DUE DATE?")
+              )
+              ; Calendar
+              (calendar 	:valign "start"
+                ; Visible if box is checked
+                :visible hasduedate
+                :class "calendar"
+                :show-heading "true"
+                :day "${caldate[0]}"
+                :month "${caldate[1]}"
+                :year "${caldate[2]}"
+                ; Send date with D-M-YTH:M:S.0 format
+              :onclick "eww update duedate='{2}-{1}-{0}T23:59:59.0'")
+            )
+          )
+        )
+      )
+    )
+  )
+)
+

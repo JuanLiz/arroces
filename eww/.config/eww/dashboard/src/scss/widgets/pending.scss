@@ -1,0 +1,39 @@
+// For pending mails and tasks
+.pendings_icon {
+	font-family: "Font Awesome 6 Pro";
+	color: $background-alt2;
+	font-weight: 400;
+	font-size: 2.2rem;
+}
+
+.pendingbox {
+	padding-top: 2.3rem;
+	font-family: 'CaskaydiaCove Nerd Font';
+	font-weight: 700;
+	font-size: 2rem;
+	color: $background-alt2;
+}
+
+.mailbox {
+	background-color: $blue ;
+	border-radius: 18px;
+}
+
+.mailbutton,
+.updatesbutton {
+	padding: 1rem 1.2rem;
+
+}
+
+.updatesbox:hover {
+	background-color: $foreground;
+}
+
+.mailbox:hover {
+	background-color: $foreground;
+}
+
+.updatesbox {
+	background-color: $magenta ;
+	border-radius: 18px;
+}

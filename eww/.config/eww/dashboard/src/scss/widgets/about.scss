@@ -1,0 +1,117 @@
+.about{
+	background-color: $background;
+    
+	color: $foreground;
+	border-radius: 18px;
+    font-family: 'CaskaydiaCove Nerd Font';
+	margin: .5rem;
+	padding: 2rem 1.7rem 2.9rem 1.7rem;
+}
+
+.coco {
+	background-size: cover;
+	background-position: top;
+	border-radius: 18px;
+	margin: 1.2em ;
+	padding: 7em;
+}
+
+.about_desktop,
+.about_header,
+.about_kernel,
+.about_os,
+.about_shell,
+.about_text,
+.about_theme,
+.about_wm{
+    font-weight: 700;
+	font-size: 1.2em;
+}
+
+.about_text{
+	color: $foreground;
+}
+
+.about_os{
+	color: $green;
+}
+
+.about_desktop{
+	color: $blue;
+}
+
+.about_theme{
+	color: $red;
+}
+
+.about_kernel{
+	color: $magenta;
+}
+
+.about_shell{
+	color: $yellow;
+}
+
+.about_wm{
+	color: $orange;
+}
+
+.about_header{
+    padding: 0 0 1rem 0;
+    font-weight: 700;
+    font-size: 1.5em;
+}
+
+.palette {
+    padding: 1rem 0 1rem 0;
+}
+
+.btn_green{
+    background-color: $green;
+}
+
+.btn_green:hover{
+    background-color: #B3E09D;
+}
+
+.btn_purple{
+    background-color: $magenta;
+
+    padding-left: 4.2rem;
+}
+
+.btn_purple:hover{
+    background-color: #CC64ED;
+}
+
+.btn_blue{
+    background-color: $blue;
+}
+
+.btn_blue:hover{
+    background-color: #8BE8DA;
+}
+
+.btn_orange{
+    background-color: $orange;
+}
+
+.btn_orange:hover{
+    background-color: #FFAE7D;
+}
+
+.btn_red{
+    background-color: $red;
+}
+
+.btn_red:hover{
+    background-color: #F93E82;
+}
+
+.btn_yellow{
+    background-color: $yellow;
+}
+
+.btn_yellow:hover{
+    background-color: #FFE980;
+}

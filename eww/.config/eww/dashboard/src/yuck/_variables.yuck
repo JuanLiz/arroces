@@ -1,0 +1,52 @@
+; Profile Variables
+(defpoll NAME  :interval "5m"  "hostname")
+(defpoll UNAME :interval "5m"  "whoami")
+
+; Time Variables
+(defpoll hour 	:interval "1s" `date +%I`)
+(defpoll minute :interval "1s" `date +%M`)
+(defpoll day 	:interval "1s" `date "+%^A"`)
+(defpoll date 	:interval "1s" `date "+%^B %d"`)
+
+; Music Variables
+(defpoll art		:interval "2s"  "~/.config/eww/dashboard/scripts/music coverloc")
+(defpoll album		:interval "2s"  "~/.config/eww/dashboard/scripts/music album")
+(defpoll title		:interval "2s"  "~/.config/eww/dashboard/scripts/music title | awk 'BEGIN { getline; print toupper($0) }'")
+(defpoll artist		:interval "2s"  "~/.config/eww/dashboard/scripts/music artist | awk 'BEGIN { getline; print toupper($0) }'")
+(defpoll playpause	:interval "1s"  "~/.config/eww/dashboard/scripts/music statusicon")
+(defpoll songtime 	:interval "1s"  "~/.config/eww/dashboard/scripts/getSongDuration")
+
+; Weather Variables
+(defpoll weather-icon 		:interval "10m"  "~/.config/eww/dashboard/scripts/getweather --icon")
+(defpoll weather-city 		:interval "10m"  "~/.config/eww/dashboard/scripts/getweather --city")
+(defpoll weather-country 	:interval "10m"  "~/.config/eww/dashboard/scripts/getweather --country")
+(defpoll weather-hex 		:interval "10m"  "~/.config/eww/dashboard/scripts/getweather --hex")
+(defpoll temperature 		:interval "10m"  "~/.config/eww/dashboard/scripts/getweather --getdata  >> /dev/null  && ~/.config/eww/dashboard/scripts/getweather --temp")
+(defpoll weather-stat 		:interval "10m"  "~/.config/eww/dashboard/scripts/getweather --stat | awk 'BEGIN { getline; print toupper($0) }'")
+
+; Stats Variables
+(defpoll cpuavg			    :interval "10s"  "~/.config/eww/dashboard/scripts/task cpuavg")
+(defpoll ram-usage 			:interval "15s"  "~/.config/eww/dashboard/scripts/sys_info --mem")
+(defpoll battery-capacity 	:interval "15s"  "~/.config/eww/dashboard/scripts/sys_info --bat")
+
+;  Pending mails Variable
+(defpoll pending-mails      :interval "15m"  "~/.config/eww/dashboard/scripts/mails")
+(defpoll pending-updates    :interval "1h" "if [[ $((yay -Qu | wc -l)) <10 ]]; then echo 0$(yay -Qu | wc -l) ;else echo $(yay -Qu | wc -l); fi")
+
+;  For coco path
+(defpoll coco :interval "1s"  "cat ~/.config/eww/dashboard/scripts/coco")
+
+; Get tasks
+(deflisten todo "tail -F -n +1 ~/.config/eww/dashboard/scripts/mstodo-eww/data.json 2> /dev/null")
+(defpoll todostatus :interval "15m" "~/.config/eww/dashboard/scripts/mstodo-eww/main.py ping")
+
+
+;  About variables
+(defpoll distro :interval "12h" "awk '/^ID=/' /etc/*-release | awk -F'=' '{ print tolower($2) }'")
+(defpoll kernel :interval "12h" "uname -r")
+(defpoll cpu :interval "12h" "lscpu | sed -nr ':a;s/  / /;ta; /Model name/ s/.*: (.*) @ .*/\\1/p'")
+(defpoll de :interval "12h" "echo $XDG_CURRENT_DESKTOP")
+(defpoll wm :interval "12h" "wmctrl -m | grep \"Name:\" | awk '{print $2}'")
+(defpoll theme :interval "12h" "neofetch | grep 'WM Theme' | awk '{print $3}'| sed -r 's/\\x1B\\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g'")
+(defpoll shell :interval "5m" "echo $SHELL | awk -F'/' '{print $NF}'")
+(defpoll uptime :interval "30s" "uptime -p | sed -e 's/up //;s/ hours,/h/;s/ minutes/m/'")

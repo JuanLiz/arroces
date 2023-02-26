@@ -1,0 +1,42 @@
+#!/bin/bash
+
+## Open Applications
+cmd="xdg-open"
+
+if [[ "$1" == "--edge" ]]; then
+	microsoft-edge-stable &
+
+elif [[ "$1" == "--spotify" ]]; then
+	spotify &
+
+elif [[ "$1" == "--whatsapp" ]]; then
+	$cmd "https://web.whatsapp.com" &
+
+
+elif [[ "$1" == "--telegram" ]]; then
+	telegram-desktop &
+
+elif [[ "$1" == "--github" ]]; then
+	$cmd "https://github.com" &
+
+elif [[ "$1" == "--todo" ]]; then
+	$cmd "https://to-do.live.com/tasks/all" &
+
+elif [[ "$1" == "--mail" ]]; then
+	mailspring &
+
+elif [[ "$1" == "--updates" ]]; then
+	pamac-manager &
+
+elif [[ "$1" == "--code" ]]; then
+	code &
+
+elif [[ "$1" == "--discord" ]]; then
+	$cmd "https://discord.com/app" &
+
+elif [[ "$1" == "--office" ]]; then
+	$cmd "https://office.com" &
+
+elif [[ "$1" == "--eclipse" ]]; then
+	eclipse &
+fi

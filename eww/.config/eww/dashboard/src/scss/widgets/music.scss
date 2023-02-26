@@ -1,0 +1,59 @@
+.music-player{
+	background-color: $background;
+	padding: 1.5rem 0 1.75rem 1rem;
+	border-radius: 18px;
+	margin: .5rem;
+	min-width: 470px;
+}
+
+.controls {
+	padding: 0 2rem;
+}
+.song {
+	font-family: "MADE Outer Sans";
+	font-weight: bold;
+	color: $foreground;
+	font-size : 1.4em;
+}
+
+.album_art {
+	background-size: cover;
+	background-position: center;
+	border-radius: 18px;
+	margin: 0rem 1rem 0rem 1rem;
+	padding: 7rem;
+}
+
+
+.artist {
+	font-family: "MADE Outer Sans";
+	//font-style: italic;
+	font-weight: 400;
+	margin-top: -5px;
+	color: $foreground;
+	font-size : 1.2em;
+}
+.album{
+	font-family: "MADE Outer Sans";
+	font-style: italic;
+	font-weight: 300;
+	font-size: 1.1em;
+	color: $foreground;
+	margin-top: -5px;
+}
+.btn_prev, .btn_play, .btn_next {
+	font-family: CaskaydiaCove Nerd Font;
+}
+.btn_prev {
+	color: $foreground;
+	font-size : 2.8em;
+}
+.btn_play {
+	color: $foreground;
+	font-size : 2.8em;
+	font-weight : bold;
+}
+.btn_next {
+	color: $foreground;
+	font-size : 2.8em;
+}

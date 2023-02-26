@@ -1,0 +1,17 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;								Windows Section's								  ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(defwindow dashboard
+    :monitor 0
+    :geometry (geometry :x "0"
+                        :y "-20"
+                        :anchor "center")
+    
+    :stacking "bg"
+    :windowtype "desktop"
+    :wm-ignore false
+    :focusable "true"
+(dashboard)
+)
