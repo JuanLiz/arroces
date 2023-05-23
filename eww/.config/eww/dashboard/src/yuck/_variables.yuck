@@ -31,7 +31,7 @@
 
 ;  Pending mails Variable
 (defpoll pending-mails      :interval "15m"  "~/.config/eww/dashboard/scripts/mails")
-(defpoll pending-updates    :interval "1h" "if [[ $((yay -Qu | wc -l)) <10 ]]; then echo 0$(yay -Qu | wc -l) ;else echo $(yay -Qu | wc -l); fi")
+(defpoll pending-updates    :interval "1h" "output=$(yay -Qu | wc -l); if [[ $output -lt 10 ]]; then printf '%02d\n' $output; else echo $output; fi")
 
 ;  For coco path
 (defpoll coco :interval "1s"  "cat ~/.config/eww/dashboard/scripts/coco")
